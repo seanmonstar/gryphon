@@ -1,0 +1,35 @@
+{
+  "name": "gryphon",
+  "version": "0.0.0",
+  "description": "Public-key auth stuff",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --check-leaks --ui exports"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/seanmonstar/gryphon"
+  },
+  "keywords": [
+    "gryphon",
+    "griffin",
+    "griffon",
+    "oauth",
+    "auth",
+    "hawk"
+  ],
+  "author": "Sean McArthur <sean.monstar@gmail.com> (http://seanmonstar.com)",
+  "license": "MPLv2.0",
+  "bugs": {
+    "url": "https://github.com/seanmonstar/gryphon/issues"
+  },
+  "homepage": "https://github.com/seanmonstar/gryphon",
+  "devDependencies": {
+    "mocha": "^1.18.2",
+    "insist": "^0.2.3"
+  },
+  "dependencies": {
+    "js-nacl": "^0.6.0",
+    "dbug": "^0.2.0"
+  }
+}
