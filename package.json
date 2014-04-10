@@ -26,7 +26,8 @@
   "homepage": "https://github.com/seanmonstar/gryphon",
   "devDependencies": {
     "mocha": "^1.18.2",
-    "insist": "^0.2.3"
+    "insist": "^0.2.3",
+    "js-yaml": "^3.0.2"
   },
   "dependencies": {
     "js-nacl": "^0.6.0",

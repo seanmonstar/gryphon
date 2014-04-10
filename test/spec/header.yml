@@ -1,0 +1,57 @@
+tests:
+  - name: get
+    desc: typical get request. don't forget default port for http
+    request:
+      method: GET
+      url: http://example.domain/foo/bar
+    options:
+      pk: 608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      sk: 7eccbc36f1e24a5947d5beee41d9ba5fed5f722b61eec5550dad9b2bcca1aa21608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      ts: 1397091986318
+      nonce: 6ae2014c
+    expected: Gryphon pubkey="608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986318", nonce="6ae2014c", sig="FPpKaQL8piF3IFdiFlR9kKwamrTjX+pyQd6Qo6TDvRlRwEnJW5AjSYmj9CQa2Q/ubMayNithQ6Nvn4NxALI/Bg=="
+  - name: get https
+    desc: typical get request. don't forget default port for https
+    request:
+      method: GET
+      url: https://example.domain/foo/bar
+    options:
+      pk: 608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      sk: 7eccbc36f1e24a5947d5beee41d9ba5fed5f722b61eec5550dad9b2bcca1aa21608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      ts: 1397091986318
+      nonce: 6ae2014c
+    expected: Gryphon pubkey="608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986318", nonce="6ae2014c", sig="dEU8kx9V2Lo4NkIfN9VrEGaWxJkX9y9g740c17O8EbduLoGw4dAaiTgB6VodYH8dk5HNh9DRUQlG5dUW1TUiDQ=="
+  - name: get with query params
+    desc: query params
+    request:
+      method: GET
+      url: https://example.domain/foo/bar?q=asdf&baz=q%20uux
+    options:
+      pk: 608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      sk: 7eccbc36f1e24a5947d5beee41d9ba5fed5f722b61eec5550dad9b2bcca1aa21608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      ts: 1397091986318
+      nonce: 6ae2014c
+    expected: Gryphon pubkey="608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986318", nonce="6ae2014c", sig="xrqAZzlJfeSZXh+a2fTKQo9qQapJHZqHYUftiZl1BEMS1A9jGLENmU3BqRXo2aUbNTVtPzTSDdunX6ip6kdxCg=="
+  - name: get with explicit port
+    desc: port is provided, don't use default
+    request:
+      method: GET
+      url: https://example.domain:9090/foo/bar?q=asdf&baz=q%20uux
+    options:
+      pk: 608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      sk: 7eccbc36f1e24a5947d5beee41d9ba5fed5f722b61eec5550dad9b2bcca1aa21608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      ts: 1397091986318
+      nonce: 6ae2014c
+    expected: Gryphon pubkey="608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986318", nonce="6ae2014c", sig="f75PShJ5H+miG+Pws+7xq/zW8gKHIHfz0243Er5YdOAgWPzumXWj39b/AAfVNwssiRvB5qR9Bd/w69skU1BSAQ=="
+  - name: post with payload
+    desc: payload must be validated as well, otherwise it can be intercepted and changed
+    request:
+      method: POST
+      url: https://example.domain/foo/bar
+      payload: 'gryphon=epic'
+    options:
+      pk: 608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      sk: 7eccbc36f1e24a5947d5beee41d9ba5fed5f722b61eec5550dad9b2bcca1aa21608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      ts: 1397091986318
+      nonce: 2be3054a
+    expected: Gryphon pubkey="608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986318", nonce="2be3054a", sig="vubWHuYzRzur29bvnGqwjATd2I5Ql3HzvgsxzmwM9uw1KlBC2sWYXMTERmbOCrXRd0yfyhpOc/DTOpnzsLLjAA=="

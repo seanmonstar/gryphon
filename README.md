@@ -3,6 +3,8 @@
 An HTTP authentication scheme similar to Hawk, but with Ed25519
 public-key signatures instead of shared secrets.
 
+> [Gryphons] are known for guarding treasure and priceless possessions.
+
 
 ## Table of Contents
 
@@ -61,3 +63,7 @@ http.createServer(function(req, res) {
   res.send(401, "i don't know you");
 }).listen(8080);
 ```
+
+## Testing
+
+See [testing guide](./test/TESTING.md)
