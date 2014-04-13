@@ -43,15 +43,52 @@ tests:
       ts: 1397091986318
       nonce: 6ae2014c
     expected: Gryphon pubkey="608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986318", nonce="6ae2014c", sig="f75PShJ5H+miG+Pws+7xq/zW8gKHIHfz0243Er5YdOAgWPzumXWj39b/AAfVNwssiRvB5qR9Bd/w69skU1BSAQ=="
+  - name: get with invalid sk
+    desc: bad secret key should not sign the request
+    request:
+      method: GET
+      url: https://example.domain:9090/foo/bar
+    options:
+      pk: 608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      sk: 7eccbc36f1e24a5947d5beee41d9ba5fed5f722b61eec5550dad9b2bcca1aa21608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4
+      ts: 1397091986318
+      nonce: 6ae2014c
+    expected: null
   - name: post with payload
     desc: payload must be validated as well, otherwise it can be intercepted and changed
     request:
       method: POST
       url: https://example.domain/foo/bar
       payload: 'gryphon=epic'
+      contentType: application/x-www-form-urlencoded
     options:
       pk: 608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
       sk: 7eccbc36f1e24a5947d5beee41d9ba5fed5f722b61eec5550dad9b2bcca1aa21608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
       ts: 1397091986318
       nonce: 2be3054a
-    expected: Gryphon pubkey="608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986318", nonce="2be3054a", sig="vubWHuYzRzur29bvnGqwjATd2I5Ql3HzvgsxzmwM9uw1KlBC2sWYXMTERmbOCrXRd0yfyhpOc/DTOpnzsLLjAA=="
+    expected: Gryphon pubkey="608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986318", nonce="2be3054a", sig="JmIuDHiOqFfNWpXnfZaFmNnKrt3W045c0hHDOerzo5lEp1FJYLY3oEJvORF/a6csvyQPm6WmGxO2ckd8b3ElDw=="
+  - name: post with json payload
+    desc: just a little different
+    request:
+      method: POST
+      url: https://example.domain/foo/bar
+      payload: '{"gryphon":"epic"}'
+      contentType: application/json
+    options:
+      pk: 608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      sk: 7eccbc36f1e24a5947d5beee41d9ba5fed5f722b61eec5550dad9b2bcca1aa21608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      ts: 1397091986318
+      nonce: 2be3054a
+    expected: Gryphon pubkey="608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986318", nonce="2be3054a", sig="kT8UCtO52MkNTat41s2YwH8sZFAzj6Oy93Pln7qX8bOKJ6e12CghgwFqJ+rLChN0mMcB4BJ7FvIb7EW/JPN9Dg=="
+  - name: post with payload but not contentType
+    desc: if content type were changed enroute, data could be parsed incorrectly
+    request:
+      method: POST
+      url: https://example.domain/foo/bar
+      payload: '{"gryphon":"epic"}'
+    options:
+      pk: 608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      sk: 7eccbc36f1e24a5947d5beee41d9ba5fed5f722b61eec5550dad9b2bcca1aa21608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+      ts: 1397091986318
+      nonce: 2be3054a
+    expected: null

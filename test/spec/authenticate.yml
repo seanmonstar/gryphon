@@ -1,1 +1,64 @@
-tests: []
+tests:
+  - name: get
+    desc: typical get request. don't forget default port for http
+    request:
+      method: GET
+      url: http://example.domain/foo/bar
+      headers:
+        authorization: Gryphon pubkey="608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986318", nonce="6ae2014c", sig="FPpKaQL8piF3IFdiFlR9kKwamrTjX+pyQd6Qo6TDvRlRwEnJW5AjSYmj9CQa2Q/ubMayNithQ6Nvn4NxALI/Bg=="
+    options: []
+    expected: 608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff
+  - name: get missing nonce
+    desc: no nonce is invalid
+    request:
+      method: GET
+      url: http://example.domain/foo/bar
+      headers:
+        authorization: Gryphon pubkey="608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986318", sig="FPpKaQL8piF3IFdiFlR9kKwamrTjX+pyQd6Qo6TDvRlRwEnJW5AjSYmj9CQa2Q/ubMayNithQ6Nvn4NxALI/Bg=="
+    options: []
+    expected: null
+  - name: get wrong nonce
+    desc: nonce is wrong
+    request:
+      method: GET
+      url: http://example.domain/foo/bar
+      headers:
+        authorization: Gryphon pubkey="608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986318", nonce="1234abcd", sig="FPpKaQL8piF3IFdiFlR9kKwamrTjX+pyQd6Qo6TDvRlRwEnJW5AjSYmj9CQa2Q/ubMayNithQ6Nvn4NxALI/Bg=="
+    options: []
+    expected: null
+  - name: get missing ts
+    desc: ts is required
+    request:
+      method: GET
+      url: http://example.domain/foo/bar
+      headers:
+        authorization: Gryphon pubkey="608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", nonce="6ae2014c", sig="FPpKaQL8piF3IFdiFlR9kKwamrTjX+pyQd6Qo6TDvRlRwEnJW5AjSYmj9CQa2Q/ubMayNithQ6Nvn4NxALI/Bg=="
+    options: []
+    expected: null
+  - name: get wrong ts
+    desc: ts is wrong
+    request:
+      method: GET
+      url: http://example.domain/foo/bar
+      headers:
+        authorization: Gryphon pubkey="608901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986317", nonce="6ae2014c", sig="FPpKaQL8piF3IFdiFlR9kKwamrTjX+pyQd6Qo6TDvRlRwEnJW5AjSYmj9CQa2Q/ubMayNithQ6Nvn4NxALI/Bg=="
+    options: []
+    expected: null
+  - name: get wrong pubkey
+    desc: pubkey is wrong
+    request:
+      method: GET
+      url: http://example.domain/foo/bar
+      headers:
+        authorization: Gryphon pubkey="604901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986317", nonce="6ae2014c", sig="FPpKaQL8piF3IFdiFlR9kKwamrTjX+pyQd6Qo6TDvRlRwEnJW5AjSYmj9CQa2Q/ubMayNithQ6Nvn4NxALI/Bg=="
+    options: []
+    expected: null
+  - name: get bad signature
+    desc: sig is wrong
+    request:
+      method: GET
+      url: http://example.domain/foo/bar
+      headers:
+        authorization: Gryphon pubkey="604901d97460b9dd36a0a57396288acd2e0edae5fd2e34446bf0e9b49793d4ff", ts="1397091986317", nonce="6ae2014c", sig="APpKaQL8piF3IFdiFlR9kKwamrTjX+pyQd6Qo6TDvRlRwEnJW5AjSYmj9CQa2Q/ubMayNithQ6Nvn4NxALI/Bg=="
+    options: []
+    expected: null

@@ -90,6 +90,7 @@ headerTests.forEach(function(test) {
     var req = url.parse(test.request.url);
     req.method = test.request.method;
     req.payload = test.request.payload;
+    req.contentType = test.request.contentType;
 
     var header = gryphon.header(req, {
       sk: sk,
@@ -107,16 +108,17 @@ var authTests = yaml.safeLoad(
 authTests.forEach(function(test) {
   var suite = suites.gryphon.authenticate;
   suite[test.name] = function() {
-    var input = test.in;
-    var req = input.request;
+    var req = test.request;
+    var parts = url.parse(req.url);
+    req.url = parts.path;
+    req.host = parts.hostname;
+    req.port = parts.port || (parts.protocol === 'https:' ? 443 : 80);
 
     var actual = gryphon.authenticate(req);
-    var expected = Buffer(input.keys.pk, 'hex');
-
     if (actual) {
       actual = actual.toString('hex');
     }
-    assert.equal(actual, expected);
+    assert.equal(actual, test.expected);
   };
 });
 
