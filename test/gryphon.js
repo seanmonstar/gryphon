@@ -42,38 +42,6 @@ suites.gryphon.nodeCases = {
         var msg = gryphon.keys.verify("not signed blob", keys.pk);
         assert.equal(msg, null);
       }
-    },
-  },
-  'header()': {
-    'should sign a request and return the header': function() {
-      var req = url.parse('https://example.domain:9009/foo/bar?q=3');
-      req.method = 'get';
-      var header = gryphon.header(req, keys);
-      assert(header);
-      assert.equal(header.substring(0, 7), 'Gryphon');
-    },
-    'should sign a payload if is POST': function() {
-      var req = url.parse('https://example.domain:9009/foo/bar');
-      req.method = 'post';
-      var header = gryphon.header(req, keys);
-      assert(header);
-      assert.equal(header.substring(0, 7), 'Gryphon');
-    }
-  },
-  'authenticate()': {
-    'should authenticate a header': function() {
-      var opts = url.parse('https://example.domain:9009/foo/bar?q=3');
-      opts.method = 'get';
-      var header = gryphon.header(opts, keys);
-
-      var req = {
-        method: 'GET',
-        url: '/foo/bar?q=3',
-        host: 'example.domain',
-        port: 9009,
-        authorization: header
-      };
-      assert.equal(gryphon.authenticate(req), keys.pk.toString('hex'));
     }
   }
 };
@@ -111,10 +79,11 @@ authTests.forEach(function(test) {
     var req = test.request;
     var parts = url.parse(req.url);
     req.url = parts.path;
-    req.host = parts.hostname;
-    req.port = parts.port || (parts.protocol === 'https:' ? 443 : 80);
+    var opts = {};
+    opts.host = parts.hostname;
+    opts.port = parts.port || (parts.protocol === 'https:' ? 443 : 80);
 
-    var actual = gryphon.authenticate(req);
+    var actual = gryphon.authenticate(req, opts);
     if (actual) {
       actual = actual.toString('hex');
     }
