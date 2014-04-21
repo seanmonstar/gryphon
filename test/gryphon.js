@@ -83,6 +83,11 @@ authTests.forEach(function(test) {
     opts.host = parts.hostname;
     opts.port = parts.port || (parts.protocol === 'https:' ? 443 : 80);
 
+    // test timeSkew on all of them
+    assert.equal(gryphon.authenticate(req, opts), null);
+
+    opts.timeSkew = Infinity;
+
     var actual = gryphon.authenticate(req, opts);
     if (actual) {
       actual = actual.toString('hex');
