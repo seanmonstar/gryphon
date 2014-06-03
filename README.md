@@ -66,4 +66,4 @@ http.createServer(function(req, res) {
 
 ## Testing
 
-See [testing guide](./test/TESTING.md)
+See [testing guide](./test/spec/TESTING.md)
